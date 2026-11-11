@@ -10,8 +10,9 @@ namespace borne.core.IInfra
 {
     public interface IConfigDAO
     {
+        Task<List<ConfigBorne>> GetAllConfigsBorne(CancellationToken cancellationTkn = default);
 
-        Task<List<ConfigBorne>> GetConfigBorneById(
+        Task<ConfigBorne?> GetConfigBorneById(
             int idConfigBorne,
             CancellationToken cancellationTkn = default
             );

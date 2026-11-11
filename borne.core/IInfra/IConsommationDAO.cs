@@ -30,7 +30,7 @@ namespace borne.core.IInfra
             );
         Task<List<Consommation>> GetByBorneId(
             int borneId, CancellationToken cancellationTkn = default);
-        Task<List<Consommation>> GetByBorneIdAndDateRand(
+        Task<List<Consommation>> GetByBorneIdAndDateRange(
             int idBorne,
             DateTime dateDeb,
             DateTime dateFin,
@@ -55,6 +55,6 @@ namespace borne.core.IInfra
 
         Task<bool> Add(Consommation c, CancellationToken cancellationTkn = default);
         Task Update(Consommation c, CancellationToken cancellationTkn = default);
-        Task Detele(int id, CancellationToken cancellationTkn = default);
+        Task Delete(int id, CancellationToken cancellationTkn = default);
     }
 }

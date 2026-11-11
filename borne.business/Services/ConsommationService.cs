@@ -97,7 +97,7 @@ namespace borne.business.Services
         {
             ValidateId(idBorne, nameof(idBorne));
             ValidateDateRange(dateDebut, dateFin);
-            return consDAO.GetByBorneIdAndDateRand(
+            return consDAO.GetByBorneIdAndDateRange(
                 idBorne,
                 dateDebut,
                 dateFin,
@@ -162,7 +162,7 @@ namespace borne.business.Services
         {
             _ = await GetConsommationById(id, cancellationToken)
                 ?? throw new KeyNotFoundException("cons reading n'existe pas ");
-            await consDAO.Detele(id, cancellationToken);
+            await consDAO.Delete(id, cancellationToken);
         }
         private async Task<Reservation> RequireReservationAsync(
         int reservationId,

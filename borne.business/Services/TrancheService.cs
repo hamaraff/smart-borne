@@ -19,14 +19,14 @@ namespace borne.business.Services
 
         public Task<Tranche> GetTrancheById(int idTranche, CancellationToken cancellationTkn = default)
         {
-            ValidateId(idTranche, nameof(idTranche);
+            ValidateId(idTranche, nameof(idTranche));
             return trancheDAO.GetById(idTranche);
         }
 
         public async Task<List<Tranche>> GetTranchesByTarif(int idTarif,CancellationToken cancellationToken = default)
         {
-            await RequireTarifAsync(idTarif, cancellationToken);
-            return await trancheDAO.GetByTarifId(tarifId, cancellationToken);
+            await RequireTarif(idTarif, cancellationToken);
+            return await trancheDAO.GetByTarifId(idTarif, cancellationToken);
 
         }
 
@@ -34,7 +34,7 @@ namespace borne.business.Services
         {
             ValidateRangeAndPrice(tranche);
             await RequireTarif(tranche.IdTarif, cancellationToken);
-            await ValidateNoOverlapAsync(tranche,null,cancellationToken);
+            await ValidateNoOverlap(tranche,null,cancellationToken);
             await trancheDAO.Add(tranche, cancellationToken);
         }
 
@@ -45,7 +45,7 @@ namespace borne.business.Services
         {
             ArgumentNullException.ThrowIfNull(tranche);
             ValidateId(tranche.IdTranche, nameof(tranche.IdTranche));
-            await RequireTarifAsync(tranche.IdTarif, cancellationToken);
+            await RequireTarif(tranche.IdTarif, cancellationToken);
             if(await GetTrancheById(tranche.IdTranche,cancellationToken) is null)
             {
                 throw new KeyNotFoundException("tarif band n'existe pas");
@@ -58,7 +58,7 @@ namespace borne.business.Services
         int idTranche,
         CancellationToken cancellationToken = default)
         {
-            Tranche tranche = await GetTrancheByIdAsync(idTranche, cancellationToken)
+            Tranche tranche = await GetTrancheById(idTranche, cancellationToken)
                 ?? throw new KeyNotFoundException("The tariff band n'existe pas ");
             await trancheDAO.Delete(tranche, cancellationToken);
         }
@@ -96,13 +96,13 @@ namespace borne.business.Services
                 throw new InvalidOperationException("il n ya pas tariff bad configuree pour cet tarif");
 
             }
-            cecimal amount = 0m;
+            decimal amount = 0m;
             decimal previousLimit = 0m;
             foreach(Tranche tranche in tranches)
             {
                 if(tranche.ValMin != previousLimit || tranche.ValMax <= tranche.ValMin || tranche.Prix <= 0)
                 {
-                    throw new InvalidOperationException("bands de tariff peut etre valid , et contigue ml 0 ")
+                    throw new InvalidOperationException("bands de tariff peut etre valid , et contigue ml 0 ");
                 }
                 decimal quantityInBand = Math.Max(0m,Math.Min(consommationCumulee,tranche.ValMax) - tranche.ValMin);
                 amount += quantityInBand * tranche.Prix;
@@ -124,7 +124,7 @@ namespace borne.business.Services
 
         }
 
-        private async Task ValidateNoOverlapAsync(Tranche candidate,int excludeId,CancellationToken cancellationToken)
+        private async Task ValidateNoOverlap(Tranche candidate,int? excludeId,CancellationToken cancellationToken)
         {
             List<Tranche> existing = await trancheDAO.GetByTarifId(candidate.IdTarif, cancellationToken);
             bool overlaps = existing.Any(tranche =>

@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="borne.business/borne.business.csproj" Id="e6ffa9c0-e3df-4620-8029-bc6e60b20c86" />
   <Project Path="borne.core/borne.core.csproj" Id="87f63782-dab7-4ca6-88ed-665f51ecbf19" />
+  <Project Path="borne.infrastructure/borne.infrastructure.csproj" Id="d89652ca-fb6b-4594-a303-326b7431d79c" />
 </Solution>
