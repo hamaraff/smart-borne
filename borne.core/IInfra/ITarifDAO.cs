@@ -12,6 +12,7 @@ namespace borne.core.IInfra
 {
     public interface ITarifDAO
     {
+        Task<List<Tarif>> GetAll(CancellationToken cancellationTkn = default);>
         Task<Tarif> GetById(int id, CancellationToken cancellationTkn = default);
         Task<List<Tarif>> GetByEnergie(
 

@@ -31,3 +31,5 @@ secrets.*.json
 # Logs and temporary files
 *.log
 *.tmp
+
+.fake

@@ -9,5 +9,5 @@ namespace borne.core.Entities;
 public sealed record BorneTariffSchedule(
     Tarif Tarif,
     IReadOnlyList<Tranche> Tranches,
-    string version
+    string Version
     );
